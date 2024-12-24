@@ -30,8 +30,7 @@ export interface IRequestProps<req, res> {
 const useGet = function <req, res>(props: IRequestProps<req, res>) {
   const { url, requestConfig, onState, onError, onDataBack, onFinally } = props;
     const defaultRequstConfig :RequestInit = {
-        method:"GET", headers:
-    }
+        method:"GET",}
   const finalRequestConfig:RequestInit =requestConfig && Object.keys(requestConfig).length>0? {
     ...defaultRequstConfig,
     ...requestConfig
