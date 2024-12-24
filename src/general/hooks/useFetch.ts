@@ -29,14 +29,20 @@ export interface IRequestProps<req, res> {
 
 const useGet = function <req, res>(props: IRequestProps<req, res>) {
   const { url, requestConfig, onState, onError, onDataBack, onFinally } = props;
+    const defaultRequstConfig :RequestInit = {
+        method:"GET", headers:
+    }
+  const finalRequestConfig:RequestInit =requestConfig && Object.keys(requestConfig).length>0? {
+    ...defaultRequstConfig,
+    ...requestConfig
+  }:{...defaultRequstConfig}
 
   if (onState) onState("loading");
 
   useEffect(() => {
-    fetch(url, requestConfig)
+    fetch(url, finalRequestConfig)
       .then((res) =>
         res.json().then((data) => {
-          console.log("this is data", data);
           if (onDataBack) onDataBack(data);
           if (onState) onState("done");
         })
@@ -50,4 +56,9 @@ const useGet = function <req, res>(props: IRequestProps<req, res>) {
       });
   }, [url, requestConfig]);
 };
-export default useGet;
+
+
+const useFetch = function(){
+    return {useGet}
+}
+export default useFetch;
